@@ -7,5 +7,5 @@ import com.algaworks.algamoney.api.model.Categoria;
 
 @Repository
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
-
+	Categoria findByNomeEqualsIgnoreCase(String nome);
 }
