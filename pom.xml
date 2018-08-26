@@ -50,6 +50,12 @@
     		<groupId>mysql</groupId>
     		<artifactId>mysql-connector-java</artifactId>
 		</dependency>
+		
+		<!-- Migração DB - Flyway -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
