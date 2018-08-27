@@ -2,6 +2,8 @@ package com.algaworks.algamoney.api.resource;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -35,7 +37,7 @@ public class CategoriaResource {
 	}
 
 	@PostMapping
-	public ResponseEntity<?> criar(@RequestBody final Categoria categoria) {
+	public ResponseEntity<?> criar(@Valid @RequestBody final Categoria categoria) {
 		final Categoria categoriaCriada = this.categoriaRepository.save(categoria);
 		
 		final URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}").buildAndExpand(categoriaCriada.getCodigo()).toUri();
