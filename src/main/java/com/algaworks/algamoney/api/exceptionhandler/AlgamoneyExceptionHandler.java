@@ -21,20 +21,21 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
-	
+
 	@Autowired
 	private MessageSource messageSource;
-	
+
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 
-		final String mensagemUsuario = messageSource.getMessage("mensagem.invalida", null, LocaleContextHolder.getLocale());
+		final String mensagemUsuario = messageSource.getMessage("mensagem.invalida", null,
+				LocaleContextHolder.getLocale());
 		final String mensagemDesenvolvedor = ex.getCause().toString();
 		final List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
 		return handleExceptionInternal(ex, erros, headers, status, request);
 	}
-	
+
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
@@ -42,17 +43,18 @@ public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
 		final List<Erro> erros = this.criarErrosValidacaoCampos(ex.getBindingResult());
 		return handleExceptionInternal(ex, erros, headers, status, request);
 	}
-	
+
 	private List<Erro> criarErrosValidacaoCampos(final BindingResult bindingResult) {
 		final List<Erro> erros = new ArrayList<>();
-		
+
 		bindingResult.getFieldErrors().forEach(field -> {
-//			String format = MessageFormat.format(field.getDefaultMessage(), field.getField());
+			// String format = MessageFormat.format(field.getDefaultMessage(),
+			// field.getField());
 			final String mensagemUsuario = this.messageSource.getMessage(field, LocaleContextHolder.getLocale());
 			final String mensagemDesenvolvedor = field.toString();
 			erros.add(new Erro(mensagemUsuario, mensagemDesenvolvedor));
 		});
-		
+
 		return erros;
 	}
 

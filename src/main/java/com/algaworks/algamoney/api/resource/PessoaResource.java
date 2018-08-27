@@ -15,33 +15,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.algaworks.algamoney.api.model.Categoria;
-import com.algaworks.algamoney.api.repository.CategoriaRepository;
+import com.algaworks.algamoney.api.model.Pessoa;
+import com.algaworks.algamoney.api.repository.PessoaRepository;
 
 @RestController
-@RequestMapping("/categorias")
-public class CategoriaResource {
+@RequestMapping(value = "/pessoas")
+public class PessoaResource {
 
 	@Autowired
-	private CategoriaRepository categoriaRepository;
+	private PessoaRepository pessoaRepository;
 	
 	@GetMapping
 	public ResponseEntity<?> listar() {
-		return ResponseEntity.ok(this.categoriaRepository.findAll());
+		return ResponseEntity.ok(this.pessoaRepository.findAll());
 	}
-
+	
 	@GetMapping("/{codigo}")
 	public ResponseEntity<?> recuperar(@PathVariable(name = "codigo") final Long codigo) {
-		final Optional<Categoria> categoria = Optional.ofNullable(this.categoriaRepository.findOne(codigo));
-		return categoria.isPresent() ? ResponseEntity.ok(categoria.get()) : ResponseEntity.notFound().build();
+		final Optional<Pessoa> pessoa = Optional.ofNullable(this.pessoaRepository.findOne(codigo));
+		return pessoa.isPresent() ? ResponseEntity.ok(pessoa.get()) : ResponseEntity.notFound().build();
 	}
-
+	
 	@PostMapping
-	public ResponseEntity<?> criar(@Valid @RequestBody final Categoria categoria) {
-		final Categoria categoriaCriada = this.categoriaRepository.save(categoria);
+	public ResponseEntity<?> criar(@Valid @RequestBody final Pessoa pessoa) {
+		final Pessoa pessoaCriada = this.pessoaRepository.save(pessoa);
 		
-		final URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}").buildAndExpand(categoriaCriada.getCodigo()).toUri();
-		
-		return ResponseEntity.created(uri).body(categoriaCriada);		
+		final URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{codigo}").buildAndExpand(pessoa.getCodigo()).toUri();
+		return ResponseEntity.created(uri).body(pessoaCriada);
 	}
 }
