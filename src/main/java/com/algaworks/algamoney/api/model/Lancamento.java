@@ -13,9 +13,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.validator.constraints.NotBlank;
 
 import com.algaworks.algamoney.api.enumeration.TipoLancamentoEnum;
 
@@ -27,27 +31,35 @@ public class Lancamento {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long codigo;
 	
+	@NotBlank
+	@Size(min = 3, max = 50)
 	private String descricao;
 
 	@Column(name = "data_vencimento")
+	@NotNull
 	private LocalDate dataVencimento;
 	
 	@Column(name = "data_pagamento")
 	private LocalDate dataPagamento;
 	
+	@NotNull
+	@DecimalMin("0.00")
 	private BigDecimal valor;
 	
 	private String observacao;
 	
 	@Enumerated(EnumType.STRING)
+	@NotNull
 	private TipoLancamentoEnum tipo;
 	
 	@ManyToOne
 	@JoinColumn(name = "codigo_categoria")
+	@NotNull
 	private Categoria categoria;
 	
 	@ManyToOne
 	@JoinColumn(name = "codigo_pessoa")
+	@NotNull
 	private Pessoa pessoa;
 	
 	public Lancamento() {
