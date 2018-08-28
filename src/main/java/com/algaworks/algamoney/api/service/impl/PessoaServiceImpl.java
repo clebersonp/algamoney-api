@@ -20,15 +20,25 @@ public class PessoaServiceImpl implements PessoaService {
 	
 	@Override
 	public Pessoa atualizar(Long codigo, Pessoa pessoa) {
-		Optional<Pessoa> pessoaOptional = Optional.ofNullable(this.pessoaRepository.findOne(codigo));
+		final Pessoa pessoaSalva = this.buscarPeloCodigo(codigo);
+		BeanUtils.copyProperties(pessoa, pessoaSalva, "codigo");
+		return this.pessoaRepository.save(pessoaSalva);
+	}
+
+	@Override
+	public void atualizarPropriedadeAtivo(Long codigo, Boolean ativo) {
+		final Pessoa pessoaSalva = this.buscarPeloCodigo(codigo);
+		pessoaSalva.setAtivo(ativo);
+		this.pessoaRepository.save(pessoaSalva);
+	}
+
+	@Override
+	public Pessoa buscarPeloCodigo(Long codigo) {
+		final Optional<Pessoa> pessoaOptional = Optional.ofNullable(this.pessoaRepository.findOne(codigo));
 		
 		if (BooleanUtils.isNotTrue(pessoaOptional.isPresent())) {
 			throw new EmptyResultDataAccessException(1);
 		}
-		final Pessoa pessoaSalva = pessoaOptional.get();
-		
-		BeanUtils.copyProperties(pessoa, pessoaSalva, "codigo");
-		
-		return this.pessoaRepository.save(pessoaSalva);
+		return pessoaOptional.get();
 	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +32,9 @@ public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 
-		final String mensagemUsuario = messageSource.getMessage("mensagem.invalida", null,
+		final String mensagemUsuario = messageSource.getMessage("propriedade.invalida", null,
 				LocaleContextHolder.getLocale());
-		final String mensagemDesenvolvedor = ex.getCause().toString();
+		final String mensagemDesenvolvedor = ObjectUtils.allNotNull(ex.getCause()) ? ex.getCause().toString() : ex.toString();
 		final List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
 		return handleExceptionInternal(ex, erros, headers, status, request);
 	}
