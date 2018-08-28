@@ -1,7 +1,5 @@
 package com.algaworks.algamoney.api.resource;
 
-import java.util.Optional;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -44,8 +42,7 @@ public class PessoaResource {
 	
 	@GetMapping("/{codigo}")
 	public ResponseEntity<?> recuperar(@PathVariable(name = "codigo") final Long codigo) {
-		final Optional<Pessoa> pessoa = Optional.ofNullable(this.pessoaRepository.findOne(codigo));
-		return pessoa.isPresent() ? ResponseEntity.ok(pessoa.get()) : ResponseEntity.notFound().build();
+		return ResponseEntity.ok(this.pessoaService.buscarPeloCodigo(codigo));
 	}
 	
 	@PostMapping

@@ -1,7 +1,5 @@
 package com.algaworks.algamoney.api.resource;
 
-import java.util.Optional;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.algaworks.algamoney.api.event.RecursoCriadoEvent;
 import com.algaworks.algamoney.api.model.Categoria;
 import com.algaworks.algamoney.api.repository.CategoriaRepository;
+import com.algaworks.algamoney.api.service.CategoriaService;
 
 @RestController
 @RequestMapping("/categorias")
@@ -26,6 +25,9 @@ public class CategoriaResource {
 
 	@Autowired
 	private CategoriaRepository categoriaRepository;
+
+	@Autowired
+	private CategoriaService categoriaService;
 	
 	@Autowired
 	private ApplicationEventPublisher publisher;
@@ -37,8 +39,7 @@ public class CategoriaResource {
 
 	@GetMapping("/{codigo}")
 	public ResponseEntity<?> recuperar(@PathVariable(name = "codigo") final Long codigo) {
-		final Optional<Categoria> categoria = Optional.ofNullable(this.categoriaRepository.findOne(codigo));
-		return categoria.isPresent() ? ResponseEntity.ok(categoria.get()) : ResponseEntity.notFound().build();
+		return ResponseEntity.ok(this.categoriaService.buscarPeloCodigo(codigo));
 	}
 
 	@PostMapping
