@@ -64,6 +64,17 @@
   			<version>${commons-lang3-version}</version>
 		</dependency>
 		
+		<!-- Suporte do Hibernate para datas do Java 8 - LocalDate e LocalDateTime -->
+		<dependency>
+    		<groupId>org.hibernate</groupId>
+    		<artifactId>hibernate-java8</artifactId>
+		</dependency>
+		
+		<!-- Serializacao e Deserializacao de Datas do Jackson -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.datatype</groupId>
+    		<artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
