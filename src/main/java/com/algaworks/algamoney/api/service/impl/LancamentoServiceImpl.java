@@ -40,4 +40,9 @@ public class LancamentoServiceImpl implements LancamentoService {
 		}
 		return lancamentoRepository.save(lancamento);
 	}
+	
+	@Override
+	public void excluirLancamento(Long codigo) {
+		this.lancamentoRepository.delete(codigo);
+	}
 }
