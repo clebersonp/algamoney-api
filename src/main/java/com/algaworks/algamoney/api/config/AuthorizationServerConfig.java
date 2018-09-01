@@ -27,8 +27,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 					.secret("@ngul@r0")
 					.scopes("read", "write")
 					.authorizedGrantTypes("password", "refresh_token")
-					.accessTokenValiditySeconds(20)
-					.refreshTokenValiditySeconds(60);
+					.accessTokenValiditySeconds(30)
+					.refreshTokenValiditySeconds(1800);
 	}
 	
 	@Override
