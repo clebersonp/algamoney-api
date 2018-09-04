@@ -32,7 +32,7 @@ public class CategoriaResource {
 	@Autowired
 	private ApplicationEventPublisher publisher;
 	
-	// Cors. Ativar a requisicao java para dominios diferentes da API
+	// Cors. Ativar a requisicao java para dominios diferentes da API. Criado o filtro CorsFilter
 	// @CrossOrigin(maxAge = 10, origins = { "http://localhost:8000" })
 	@GetMapping
 	public ResponseEntity<?> listar() {
