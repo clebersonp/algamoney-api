@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,11 +42,13 @@ public class PessoaResource {
 	}
 	
 	@GetMapping("/{codigo}")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_PESSOA') and #oauth2.hasScope('read')")
 	public ResponseEntity<?> recuperar(@PathVariable(name = "codigo") final Long codigo) {
 		return ResponseEntity.ok(this.pessoaService.buscarPeloCodigo(codigo));
 	}
 	
 	@PostMapping
+	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_PESSOA') and #oauth2.hasScope('write')")
 	public ResponseEntity<?> criar(@Valid @RequestBody final Pessoa pessoa, HttpServletResponse response) {
 		final Pessoa pessoaCriada = this.pessoaRepository.save(pessoa);
 		// publica o evento para o listener usar
@@ -55,17 +58,20 @@ public class PessoaResource {
 	
 	@DeleteMapping(path = "/{codigo}")
 	@ResponseStatus(code = HttpStatus.NO_CONTENT)
+	@PreAuthorize("hasAuthority('ROLE_REMOVER_PESSOA') and #oauth2.hasScope('write')")
 	public void deletar(@PathVariable(name = "codigo") final Long codigo) {
 		this.pessoaRepository.delete(codigo);
 	}
 	
 	@PutMapping(path = "/{codigo}")
+	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_PESSOA') and #oauth2.hasScope('write')")
 	public ResponseEntity<?> atualizar(@PathVariable(name = "codigo") final Long codigo, @Valid @RequestBody final Pessoa pessoa) {
 		return ResponseEntity.ok(this.pessoaService.atualizar(codigo, pessoa));
 	}
 
 	@PutMapping(path = "/{codigo}/ativo")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_PESSOA') and #oauth2.hasScope('write')")
 	public void atualizarPropriedadeAtivo(@PathVariable(name = "codigo") final Long codigo, @RequestBody final Boolean ativo) {
 		this.pessoaService.atualizarPropriedadeAtivo(codigo, ativo);
 	}
