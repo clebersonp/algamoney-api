@@ -64,6 +64,13 @@ public class LancamentoResource {
 				@PageableDefault(page = 0, size = 10, sort = { "codigo" }, direction = Direction.ASC) final Pageable pageable) {
 		return ResponseEntity.ok(this.lancamentoRepository.pesquisar(lancamentoFilter, pageable));
 	}
+
+	@GetMapping(params = "resumo")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
+	public ResponseEntity<?> resumirPorFiltro(final LancamentoFilter lancamentoFilter,
+			@PageableDefault(page = 0, size = 10, sort = { "codigo" }, direction = Direction.ASC) final Pageable pageable) {
+		return ResponseEntity.ok(this.lancamentoRepository.resumir(lancamentoFilter, pageable));
+	}
 	
 	@GetMapping("/{codigo}")
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
