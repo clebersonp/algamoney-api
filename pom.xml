@@ -99,6 +99,12 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-jwt</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -121,28 +127,6 @@
                     </compilerArguments>
                 </configuration>
             </plugin>
-            
-            <!-- Definindo o caminho dos Metamodels Hibernate como source folder -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>add-source</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <source>target/generated-sources/annotations</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-            	</executions>
-			</plugin>
 		</plugins>
 	</build>
-
-
 </project>
