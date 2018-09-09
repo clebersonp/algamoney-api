@@ -2,10 +2,7 @@ package com.algaworks.algamoney.api.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,8 +14,6 @@ import javax.persistence.Table;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Entity
 @Table(name = "usuario")
@@ -69,6 +64,10 @@ public class Usuario implements Serializable {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
+	
+	public List<Permissao> getPermissoes() {
+		return permissoes;
+	}
 
 	@Override
 	public int hashCode() {
@@ -98,13 +97,5 @@ public class Usuario implements Serializable {
 	@Override
 	public String toString() {
 		return ReflectionToStringBuilder.toString(this, ToStringStyle.JSON_STYLE);
-	}
-
-	public Collection<? extends GrantedAuthority> getGrantedAuthority() {
-		final Set<GrantedAuthority> authorities = new HashSet<>();
-		this.permissoes.forEach(p -> {
-			authorities.add(new SimpleGrantedAuthority(p.getDescricao()));
-		});
-		return authorities;
 	}
 }
