@@ -24,6 +24,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.algaworks.algamoney.api.service.exception.LancamentoInexistenteException;
+import com.algaworks.algamoney.api.service.exception.PessoaInexistenteOuInativaException;
+
 @ControllerAdvice
 public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -63,6 +66,22 @@ public class AlgamoneyExceptionHandler extends ResponseEntityExceptionHandler {
 		final String mensagemDesenvolvedor = ExceptionUtils.getRootCauseMessage(ex);
 		final List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
 		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+	}
+	
+	@ExceptionHandler({ PessoaInexistenteOuInativaException.class })
+	public ResponseEntity<?> handlePessoaInexistenteOuInativaException(final PessoaInexistenteOuInativaException ex) {
+		final String mensagemUsuario = this.messageSource.getMessage("pessoa.inexistente-ou-inativa", null, LocaleContextHolder.getLocale());
+		final String mensagemDesenvolvedor = ex.toString();
+		final List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
+		return ResponseEntity.badRequest().body(erros);
+	}
+
+	@ExceptionHandler({ LancamentoInexistenteException.class })
+	public ResponseEntity<?> handleLancamentoInexistenteOuInativaException(final LancamentoInexistenteException ex) {
+		final String mensagemUsuario = this.messageSource.getMessage("lancamento.inexistente", null, LocaleContextHolder.getLocale());
+		final String mensagemDesenvolvedor = ex.toString();
+		final List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
+		return ResponseEntity.badRequest().body(erros);
 	}
 	
 	private List<Erro> criarErrosValidacaoCampos(final BindingResult bindingResult) {

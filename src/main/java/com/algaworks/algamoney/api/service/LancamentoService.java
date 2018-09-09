@@ -6,4 +6,5 @@ public interface LancamentoService {
 	Lancamento buscarPeloCodigo(Long codigo);
 	Lancamento salvar(Lancamento lancamento);
 	void excluirLancamento(Long codigo);
+	Lancamento atualizar(Long codigo, Lancamento lancamento);
 }
