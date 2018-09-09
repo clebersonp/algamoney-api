@@ -19,7 +19,7 @@ public class RecursoCriadoListener implements ApplicationListener<RecursoCriadoE
 		final String path = event.getPath();
 		final HttpServletResponse response = event.getResponse();
 		
-		criarHeaderLocation(codigo, path, response);
+		this.criarHeaderLocation(codigo, path, response);
 	}
 
 	private void criarHeaderLocation(final Long codigo, final String path, final HttpServletResponse response) {
